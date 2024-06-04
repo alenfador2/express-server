@@ -33,4 +33,4 @@ postsSchema.static.getAll = () => {
   Posts.find().lean();
 };
 
-const Posts = mongoose.model("posts", postSchema);
+module.exports = mongoose.model("Posts", postSchema);
