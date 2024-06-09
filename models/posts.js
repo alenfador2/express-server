@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-const postSchema = new mongoose.Schema(
+const postsSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -33,4 +34,4 @@ postsSchema.static.getAll = () => {
   Posts.find().lean();
 };
 
-module.exports = mongoose.model("Posts", postSchema);
+module.exports = mongoose.model("Posts", postsSchema);

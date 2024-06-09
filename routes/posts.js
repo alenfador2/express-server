@@ -1,3 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const Posts = require("../models/posts");
+const postsController = require("../controllers/postsController");
+
+router.get("/", postsController.get);
+
+module.exports = router;
