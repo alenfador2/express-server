@@ -34,4 +34,4 @@ const postsSchema = new mongoose.Schema(
 //   Posts.find().lean();
 // };
 
-module.exports = mongoose.model("Posts", postsSchema);
+module.exports = mongoose.model("db_mpj", postsSchema, "posts");
