@@ -30,8 +30,8 @@ const postsSchema = new mongoose.Schema(
   }
 );
 
-postsSchema.static.getAll = () => {
-  Posts.find().lean();
-};
+// postsSchema.static.getAll = () => {
+//   Posts.find().lean();
+// };
 
 module.exports = mongoose.model("Posts", postsSchema);
