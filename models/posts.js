@@ -18,6 +18,7 @@ const postsSchema = new mongoose.Schema(
     },
     imageUrl: {
       type: String,
+      required: false,
     },
     owner: {
       type: Schema.Types.ObjectId,
@@ -34,4 +35,4 @@ const postsSchema = new mongoose.Schema(
 //   Posts.find().lean();
 // };
 
-module.exports = mongoose.model("Posts", postsSchema, "posts");
+module.exports = mongoose.model("posts", postsSchema);

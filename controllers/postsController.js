@@ -4,13 +4,13 @@ const get = async (req, res, next) => {
   try {
     // const results = await Posts.getAll();
     const results = await Posts.find();
-    res.json({
+    return res.json({
       status: "success",
       code: 200,
       posts: results,
     });
   } catch (error) {
-    console.error(error);
+    console.log(error);
     next(error);
   }
 };
