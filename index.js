@@ -7,7 +7,12 @@ const port = process.env.PORT || 3000;
 const startServer = async () => {
   try {
     await connection;
-    console.log("Database successfully connection");
+    if (connection) {
+      console.log("Database successfully connection");
+    } else {
+      console.log("Something went wrong...");
+    }
+
     app.listen(port, () => {
       console.log(`server running at port: ${port}`);
     });
