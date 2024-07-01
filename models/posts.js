@@ -27,8 +27,8 @@ const postsSchema = new Schema(
   }
 );
 
-// postsSchema.static.getAll = () => {
-//   Posts.find().lean();
-// };
+postsSchema.static.getAll = async () => {
+  await Posts.find().lean();
+};
 
 module.exports = mongoose.model("posts", postsSchema);
