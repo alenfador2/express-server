@@ -3,6 +3,12 @@ require("dotenv").config();
 
 const { MONGO_DB: dbURL } = process.env;
 
-const connection = mongoose.connect(dbURL);
+const connection = async () => {
+  await mongoose.connect(dbURL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  });
+};
 
 module.exports = connection;
