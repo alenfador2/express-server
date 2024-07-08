@@ -15,7 +15,7 @@ app.use((err, req, res, next) => {
   res.json({
     status: "failed",
     code: 500,
-    message: "Internal server error",
+    message: `Internal server error ${err.message}, error: ${err.stack}`,
   });
 });
 
