@@ -1,5 +1,6 @@
 const Posts = require("../models/posts");
 // const path = require("path");
+console.log(Posts);
 const get = async (req, res, next) => {
   try {
     const results = await Posts.getAll();
