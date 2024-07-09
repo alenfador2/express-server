@@ -6,7 +6,8 @@ const port = process.env.PORT || 3000;
 
 const startServer = async () => {
   try {
-    await connection;
+    await connection();
+
     if (connection) {
       console.log("Database successfully connection");
     } else {
