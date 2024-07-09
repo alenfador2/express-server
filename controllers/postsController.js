@@ -3,7 +3,7 @@ const Posts = require("../models/posts");
 console.log(Posts());
 const get = async (req, res, next) => {
   try {
-    const results = await Posts().getAll();
+    const results = await Posts.find({});
     return res.json({
       status: "success",
       code: 200,
