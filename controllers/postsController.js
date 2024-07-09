@@ -1,9 +1,9 @@
 const Posts = require("../models/posts");
 // const path = require("path");
-console.log(Posts);
+console.log(Posts());
 const get = async (req, res, next) => {
   try {
-    const results = await Posts.getAll();
+    const results = await Posts().getAll();
     return res.json({
       status: "success",
       code: 200,
