@@ -1,6 +1,7 @@
 const Posts = require('../models/posts');
 const multer = require('multer');
-// const path = require('path');
+const path = require('path');
+
 const get = async (req, res, next) => {
   try {
     const results = await Posts.find({});
@@ -18,7 +19,7 @@ const get = async (req, res, next) => {
 const post = async (req, res, next) => {
   try {
     const { title, content } = req.body;
-    console.log(req.file);
+    console.log(req.image);
     const imageUrl = req.file ? req.file.path : null;
     console.log(imageUrl);
     const newPost = await Posts.create({ title, content, imageUrl });
