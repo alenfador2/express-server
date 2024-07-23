@@ -1,11 +1,11 @@
-const Posts = require("../models/posts");
-// const path = require("path");
-console.log(Posts());
+const Posts = require('../models/posts');
+const multer = require('multer');
+// const path = require('path');
 const get = async (req, res, next) => {
   try {
     const results = await Posts.find({});
     return res.json({
-      status: "success",
+      status: 'success',
       code: 200,
       posts: results,
     });
@@ -23,22 +23,22 @@ const post = async (req, res, next) => {
 
     if (req.file) {
       res.json({
-        status: "success",
-        message: "File uploaded successfully!",
-        file: req.file,
+        status: 'success',
+        message: 'File uploaded successfully!',
+        file: imageUrl,
       });
     }
     if (!title || !content) {
       res.json({
-        status: "failed",
+        status: 'failed',
         code: 400,
-        message: "missing required name - field",
+        message: 'missing required name - field',
       });
     } else {
       res.json({
-        status: "success",
+        status: 'success',
         code: 201,
-        message: "Added new post!",
+        message: 'Added new post!',
         data: { newPost },
       });
     }
