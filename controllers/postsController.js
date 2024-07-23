@@ -18,7 +18,9 @@ const get = async (req, res, next) => {
 const post = async (req, res, next) => {
   try {
     const { title, content } = req.body;
+    console.log(req.file);
     const imageUrl = req.file ? req.file.path : null;
+    console.log(imageUrl);
     const newPost = await Posts.create({ title, content, imageUrl });
 
     if (req.file) {
