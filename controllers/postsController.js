@@ -18,16 +18,16 @@ const get = async (req, res, next) => {
 
 const post = async (req, res, next) => {
   try {
-    const { title, content, file } = req.body;
-    const imageUrl = file ? file.path : null;
-    console.log(imageUrl);
-    const newPost = await Posts.create({ title, content, imageUrl });
+    const { title, content } = req.body;
+    const image = req.file ? req.file.path : null;
+    console.log(image);
+    const newPost = await Posts.create({ title, content, image });
 
     if (req.file) {
       res.json({
         status: 'success',
         message: 'File uploaded successfully!',
-        file: imageUrl,
+        file: image,
       });
     }
     if (!title || !content) {
