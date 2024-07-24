@@ -20,6 +20,8 @@ const post = async (req, res, next) => {
   try {
     const { title, content } = req.body;
     console.log(req.image);
+    console.log(req.file.image);
+    console.log(req.file.image.path);
     const imageUrl = req.file ? req.file.path : null;
     console.log(imageUrl);
     const newPost = await Posts.create({ title, content, imageUrl });
