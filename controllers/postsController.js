@@ -19,29 +19,30 @@ const get = async (req, res, next) => {
 const post = async (req, res, next) => {
   try {
     const { title, content } = req.body;
-    const imageUrl = req.file ? req.file.path : null;
-    console.log(imageUrl);
-    const newPost = await Posts.create({ title, content, imageUrl });
 
-    if (req.file) {
-      res.json({
-        status: 'success',
-        message: 'File uploaded successfully!',
-        file: imageUrl,
-      });
-    }
     if (!title || !content) {
       res.json({
         status: 'failed',
         code: 400,
         message: 'missing required name - field',
       });
-    } else {
+    }
+    const imageUrl = req.file ? req.file.path : null;
+    console.log(imageUrl);
+    const newPost = await Posts.create({ title, content, imageUrl });
+
+    res.json({
+      status: 'success',
+      code: 201,
+      message: 'Added new post!',
+      data: { newPost },
+    });
+
+    if (req.file) {
       res.json({
         status: 'success',
-        code: 201,
-        message: 'Added new post!',
-        data: { newPost },
+        message: 'File uploaded successfully!',
+        file: imageUrl,
       });
     }
   } catch (error) {
