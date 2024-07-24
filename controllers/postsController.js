@@ -21,6 +21,7 @@ const post = async (req, res, next) => {
     const { title, content } = req.body;
     const imageUrl = req.file ? req.file.path : null;
     console.log(imageUrl);
+    const newPost = await Posts.create({ title, content, imageUrl });
 
     if (req.file) {
       res.json({
@@ -43,8 +44,6 @@ const post = async (req, res, next) => {
         data: { newPost },
       });
     }
-
-    const newPost = await Posts.create({ title, content, imageUrl });
   } catch (error) {
     console.log(error);
     next(error);
