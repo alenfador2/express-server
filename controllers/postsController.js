@@ -19,7 +19,7 @@ const get = async (req, res, next) => {
 const post = async (req, res, next) => {
   try {
     const { title, content } = req.body;
-
+    const imageUrl = req.file ? req.file.path : null;
     console.log(imageUrl);
 
     if (req.file) {
@@ -43,7 +43,7 @@ const post = async (req, res, next) => {
         data: { newPost },
       });
     }
-    const imageUrl = req.file ? req.file.path : null;
+
     const newPost = await Posts.create({ title, content, imageUrl });
   } catch (error) {
     console.log(error);
