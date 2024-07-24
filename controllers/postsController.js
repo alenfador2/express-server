@@ -19,15 +19,14 @@ const get = async (req, res, next) => {
 const post = async (req, res, next) => {
   try {
     const { title, content } = req.body;
-    const image = req.file ? req.file.path : null;
-    console.log(image);
-    const newPost = await Posts.create({ title, content, image });
+
+    console.log(imageUrl);
 
     if (req.file) {
       res.json({
         status: 'success',
         message: 'File uploaded successfully!',
-        file: image,
+        file: imageUrl,
       });
     }
     if (!title || !content) {
@@ -44,6 +43,8 @@ const post = async (req, res, next) => {
         data: { newPost },
       });
     }
+    const imageUrl = req.file ? req.file.path : null;
+    const newPost = await Posts.create({ title, content, imageUrl });
   } catch (error) {
     console.log(error);
     next(error);
