@@ -12,14 +12,14 @@ const store = multer.diskStorage({
   },
 });
 
-// const fileTypes = ['/jpeg|jpg|png/'];
-// const typeFilter = (req, file, cb) => {
-//   if (fileTypes.includes(file.mimetype)) {
-//     cb(null, true);
-//   } else {
-//     cb(null, false);
-//   }
-// };
+const fileTypes = ['/jpeg|jpg|png/'];
+const typeFilter = (req, file, cb) => {
+  if (fileTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
 
-const upload = multer({ store });
+const upload = multer({ store, typeFilter });
 module.exports = upload;
