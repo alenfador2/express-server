@@ -18,6 +18,8 @@ const get = async (req, res, next) => {
 
 const post = async (req, res, next) => {
   try {
+    console.log(req.body);
+    console.log(req.file);
     const { title, content } = req.body;
 
     if (!title || !content) {
