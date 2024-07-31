@@ -27,7 +27,7 @@ const post = async (req, res, next) => {
         message: 'missing required name - field',
       });
     }
-    console.log(req.body.json);
+    console.log(req.body);
     const imageUrl = req.file ? req.file.path : null;
     console.log(imageUrl);
     const newPost = await Posts.create({ title, content, imageUrl });
