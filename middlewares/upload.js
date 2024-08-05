@@ -8,9 +8,6 @@ const store = multer.diskStorage({
   filename(req, file, cb) {
     cb(null, Date.now() + '_' + file.originalname);
   },
-  limits: {
-    fileSize: 1048576,
-  },
 });
 
 const fileTypes = /\.(jpeg|jpg|png)$/i;
