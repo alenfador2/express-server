@@ -39,15 +39,8 @@ const post = async (req, res, next) => {
       code: 201,
       message: 'Added new post!',
       data: { newPost },
+      file: req.file ? req.file.path : null,
     });
-
-    if (req.file) {
-      res.json({
-        status: 'success',
-        message: 'File uploaded successfully!',
-        file: file,
-      });
-    }
   } catch (error) {
     console.log(error);
     next(error);
