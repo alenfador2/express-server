@@ -30,7 +30,7 @@ const post = async (req, res, next) => {
       });
     }
     console.log(req.body);
-    const file = file ? file.path : null;
+    const file = req.file ? req.file.path : null;
     console.log(file);
     const newPost = await Posts.create({ title, content, file });
 
@@ -45,7 +45,7 @@ const post = async (req, res, next) => {
       res.json({
         status: 'success',
         message: 'File uploaded successfully!',
-        file: imageUrl,
+        file,
       });
     }
   } catch (error) {
