@@ -45,7 +45,7 @@ const post = async (req, res, next) => {
       res.json({
         status: 'success',
         message: 'File uploaded successfully!',
-        file,
+        file: file,
       });
     }
   } catch (error) {
