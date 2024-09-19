@@ -30,9 +30,9 @@ const post = async (req, res, next) => {
       });
     }
     console.log(req.body);
-    const imageUrl = req.file ? req.file.path : null;
-    console.log(imageUrl);
-    const newPost = await Posts.create({ title, content, imageUrl });
+    const file = file ? file.path : null;
+    console.log(file);
+    const newPost = await Posts.create({ title, content, file });
 
     res.json({
       status: 'success',
