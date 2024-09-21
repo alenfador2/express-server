@@ -1,6 +1,7 @@
 const Posts = require('../models/posts');
 const multer = require('multer');
 const path = require('path');
+const upload = require('../middlewares/upload');
 
 const get = async (req, res, next) => {
   try {
@@ -49,5 +50,5 @@ const post = async (req, res, next) => {
 
 module.exports = {
   get,
-  post,
+  post: [upload.single('file', post)],
 };
