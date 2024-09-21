@@ -31,8 +31,10 @@ const post = async (req, res, next) => {
       });
     }
     console.log(req.body);
-    const file = req.file ? req.file.path : null;
-    console.log(file);
+    // const file = req.file ? req.file.path : null;
+    const file = req.file.buffer ? req.file.buffer.path : null;
+    console.log(req.file.body);
+    console.log(req.file.buffer);
     const newPost = await Posts.create({ title, content, file });
 
     res.json({
