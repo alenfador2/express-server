@@ -50,5 +50,5 @@ const post = async (req, res, next) => {
 
 module.exports = {
   get,
-  post: [upload.single('file', post)],
+  post,
 };
