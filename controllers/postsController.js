@@ -19,10 +19,7 @@ const get = async (req, res, next) => {
 
 const post = async (req, res, next) => {
   try {
-    console.log(req.body);
-    console.log(req.file);
     const { title, content } = req.body;
-
     if (!title || !content) {
       res.json({
         status: 'failed',
@@ -30,11 +27,7 @@ const post = async (req, res, next) => {
         message: 'missing required name - field',
       });
     }
-    console.log(req.body);
-    // const file = req.file ? req.file.path : null;
-    const file = req.file.buffer ? req.file.buffer.path : null;
-    console.log(req.file.body);
-    console.log(req.file.buffer);
+    const file = req.file ? req.file.path : null;
     const newPost = await Posts.create({ title, content, file });
 
     res.json({
@@ -52,5 +45,5 @@ const post = async (req, res, next) => {
 
 module.exports = {
   get,
-  post,
+  post: [upload.single('file'), post],
 };
