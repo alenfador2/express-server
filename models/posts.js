@@ -17,7 +17,7 @@ const postsSchema = new Schema(
       maxLength: 2000,
     },
     file: {
-      type: String,
+      type: Buffer,
       required: false,
     },
   },
