@@ -15,9 +15,12 @@ const typeFilter = (req, file, cb) => {
   if (fileTypes.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(new Error('Invalid filetype.  Only JPEG, JPG, PNG are allowed'), false);
+    cb(
+      new Error('Invalid filetype.  Only JPEG, JPG, PNG and GIF are allowed'),
+      false
+    );
   }
 };
 
-const upload = multer({ store, typeFilter });
+const upload = multer({ store, fileFilter: typeFilter });
 module.exports = upload;
