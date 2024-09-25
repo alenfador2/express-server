@@ -1,9 +1,16 @@
+const fs = require('fs');
 const multer = require('multer');
 const path = require('path');
 
+const imageDir = path.join(__dirname, '../public/images');
+
+if (!fs.existsSync(imageDir)) {
+  fs.mkdirSync(imageDir, { recursive: true });
+}
+
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, path.join(__dirname, '../public/images'));
+    cb(null, imageDir);
   },
   filename(req, file, cb) {
     cb(null, Date.now() + '_' + path.extname(file.originalname));
