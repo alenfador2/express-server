@@ -2,7 +2,7 @@ const fs = require('fs');
 const multer = require('multer');
 const path = require('path');
 
-const imageDir = path.join(__dirname, '../public/images');
+const imageDir = path.join(__dirname, 'public/images');
 
 if (!fs.existsSync(imageDir)) {
   fs.mkdirSync(imageDir, { recursive: true });
