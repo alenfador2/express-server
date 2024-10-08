@@ -16,8 +16,11 @@ const connection = async () => {
     .catch(err => console.log(`Something went wrong... ${err}`));
 };
 
+connection();
+
 let gfs;
-connection.once('open', () => {
+
+mongoose.connection.once('open', () => {
   gfs = Grid(connection.dbURL, mongoose.mongo);
   gfs.collection('uploads');
 });
