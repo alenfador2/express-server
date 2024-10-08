@@ -2,10 +2,26 @@ const Posts = require('../models/posts');
 const multer = require('multer');
 const path = require('path');
 const upload = require('../middlewares/upload');
+const { GridFsStorage } = require('multer-gridfs-storage/lib/gridfs');
 
 const get = async (req, res, next) => {
   try {
     const results = await Posts.find({});
+    GridFsStorage.files.findOne(
+      { filename: req.params.filename },
+      (err, file) => {
+        if (!file || file.length === 0) {
+          return res.json({
+            status: 'failed',
+            code: 404,
+            message: 'File not found...',
+          });
+        } else {
+          const readStream = GridFsStorage.createReadStream(file.filename);
+          readStream.pipe(res);
+        }
+      }
+    );
     return res.json({
       status: 'success',
       code: 200,

@@ -1,5 +1,6 @@
-const mongoose = require("mongoose");
-require("dotenv").config();
+const mongoose = require('mongoose');
+require('dotenv').config();
+const Grid = require('gridfs-stream');
 
 const { MONGO_DB: dbURL } = process.env;
 
@@ -11,8 +12,14 @@ const connection = async () => {
       connectTimeoutMS: 45000,
       socketTimeoutMS: 60000,
     })
-    .then(() => console.log("Database connected successfully!"))
-    .catch((err) => console.log(`Something went wrong... ${err}`));
+    .then(() => console.log('Database connected successfully!'))
+    .catch(err => console.log(`Something went wrong... ${err}`));
 };
+
+let gfs;
+connection.once('open', () => {
+  gfs = Grid(connection.dbURL, mongoose.mongo);
+  gfs.collection('uploads');
+});
 
 module.exports = connection;
