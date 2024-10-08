@@ -21,7 +21,7 @@ connection();
 let gfs;
 
 mongoose.connection.once('open', () => {
-  gfs = Grid(connection.dbURL, mongoose.mongo);
+  gfs = new Grid(mongoose.connection.dbURL, mongoose.mongo);
   gfs.collection('uploads');
 });
 

@@ -4,7 +4,7 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const postsRouter = require('./routes/posts');
 const { GridFsStorage } = require('multer-gridfs-storage');
-const dbUrl = '';
+
 
 const app = express();
 
