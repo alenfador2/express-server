@@ -22,7 +22,7 @@ const connection = async () => {
     gfs = Grid(db, mongoose.mongo);
     gfs.collection('images');
 
-    return conn();
+    return conn;
   } catch (err) {
     console.log(`Something went wrong...${err}`);
   }
