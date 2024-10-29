@@ -8,7 +8,7 @@ let gfs;
 
 const connection = async () => {
   try {
-    const conn = await mongoose
+    await mongoose
       .connect(dbURL, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -18,14 +18,16 @@ const connection = async () => {
       .then(() => console.log('Database connected successfully!'))
       .catch(err => console.log(`Something went wrong... ${err}`));
 
-    const db = mongoose.connection.db;
-    gfs = Grid(db, mongoose.mongo);
-    gfs.collection('images');
-
-    return conn;
+    let gfs;
+    const conn = mongoose.connection;
+    conn.once('open', () => {
+      gfs = mongoose.mongo.GridFSBucket(conn.db, {
+        bucketName: 'images',
+      });
+    });
   } catch (err) {
     console.log(`Something went wrong...${err}`);
   }
 };
 
-module.exports = connection;
+module.exports = { connection, gfs };
