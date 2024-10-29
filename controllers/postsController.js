@@ -5,10 +5,11 @@ const upload = require('../middlewares/upload');
 const mongoose = require('mongoose');
 //подключение гридФс
 let gfs;
+
 const conn = mongoose.connection;
 
 conn.once('open', () => {
-  gfs = mongoose.mongo.GridFSBucket(conn.db, {
+  gfs = new mongoose.mongo.GridFSBucket(conn.db, {
     bucketName: 'images',
   });
 });
@@ -58,7 +59,7 @@ const getFile = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    gfs.find({ _id: new mongoose.Types.ObjectId(id) }).toArray((err, files) => {
+    gfs.find({ _id: mongoose.Types.ObjectId(id) }).toArray((err, files) => {
       if (!files || files.length === 0) {
         return res.status(404).json({ message: 'No file found' });
       }
