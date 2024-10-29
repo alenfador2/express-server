@@ -18,7 +18,6 @@ const connection = async () => {
       .then(() => console.log('Database connected successfully!'))
       .catch(err => console.log(`Something went wrong... ${err}`));
 
-    let gfs;
     const conn = mongoose.connection;
     conn.once('open', () => {
       gfs = mongoose.mongo.GridFSBucket(conn.db, {
