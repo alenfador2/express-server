@@ -1,37 +1,44 @@
 const fs = require('fs');
 const multer = require('multer');
 const path = require('path');
+const { GridFsStorage } = require('multer-gridfs-storage');
 
-const imageDir = path.join(__dirname, 'public/images');
+const { MONGO_DB: dbURL } = process.env;
 
-if (!fs.existsSync(imageDir)) {
-  fs.mkdirSync(imageDir, { recursive: true });
-}
+// const imageDir = path.join(__dirname, 'public/images');
 
-const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    cb(null, imageDir);
-  },
-  filename(req, file, cb) {
-    cb(null, Date.now() + '_' + path.extname(file.originalname));
+// if (!fs.existsSync(imageDir)) {
+//   fs.mkdirSync(imageDir, { recursive: true });
+// }
+
+// const storage = multer.diskStorage({
+//   destination(req, file, cb) {
+//     cb(null, imageDir);
+//   },
+//   filename(req, file, cb) {
+//     cb(null, Date.now() + '_' + path.extname(file.originalname));
+//   },
+// });
+
+const storage = new GridFsStorage({
+  url: dbURL,
+  options: { useNewUrlParser: true, useUnifiedTopology: true },
+  file: (req, file, res) => {
+    {
+      return {
+        filename: Date.now + '-' + file.originalname,
+        bucketName: 'images',
+      };
+    }
   },
 });
 
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, '/public/images');
-//   },
-//   filename: function (req, file, cb) {
-//     const uniqueFileName = Date.now() + '-' + Math.floor(Math.random() * 1e9);
-//     cb(null, file.fieldname + '-' + uniqueFileName);
-//   },
-// });
 const fileTypes = /jpeg|jpg|png|gif/;
 const typeFilter = (req, file, cb) => {
   const mimetype = fileTypes.test(file.mimetype);
   const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
 
-  if (mimetype & extname) {
+  if (mimetype && extname) {
     return cb(null, true);
   } else {
     return cb(

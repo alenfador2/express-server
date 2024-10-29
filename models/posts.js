@@ -27,10 +27,6 @@ const postsSchema = new Schema(
   }
 );
 
-// postsSchema.static.getAll = async function () {
-//   return this.find().lean();
-// };
-
 const Posts = mongoose.model('Posts', postsSchema, 'posts');
 
 module.exports = Posts;
