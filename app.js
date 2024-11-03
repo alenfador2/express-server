@@ -16,6 +16,7 @@ app.use(
       'Authorization',
       'Accept',
       'X-Requested-With',
+      'application/json',
     ],
   })
 );
