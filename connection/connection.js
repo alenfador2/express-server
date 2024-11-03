@@ -29,4 +29,13 @@ const connection = async () => {
   }
 };
 
-module.exports = { connection, getGFs: () => gfs };
+const getGFs = () => {
+  if (!gfs) {
+    throw new Error(
+      'GridFS is not initialized. Please ensure the database connection is established.'
+    );
+  }
+  return gfs;
+};
+
+module.exports = { connection, getGFs };
