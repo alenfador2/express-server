@@ -6,19 +6,7 @@ const postsRouter = require('./routes/posts');
 
 const app = express();
 // добавляем CORS
-app.use(
-  '*',
-  cors({
-    // credentials: true,
-    methods: ['GET', 'POST'],
-    allowedHeaders: [
-      'Content-Type',
-      'Authorization',
-      'Accept',
-      'X-Requested-With',
-    ],
-  })
-);
+app.use(cors());
 
 app.use(express.json());
 
