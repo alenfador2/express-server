@@ -12,6 +12,7 @@ conn.once('open', () => {
   gfs = new mongoose.mongo.GridFSBucket(conn.db, {
     bucketName: 'images',
   });
+  console.log('GridFS initialized successfully!');
 });
 
 const get = async (req, res, next) => {
@@ -59,12 +60,14 @@ const getFile = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    gfs.find({ _id: mongoose.Types.ObjectId(id) }).toArray((err, files) => {
-      if (!files || files.length === 0) {
-        return res.status(404).json({ message: 'No file found' });
-      }
-      gfs.openDownloadStreamByName(files[0].filename).pipe(res);
-    });
+    await gfs
+      .find({ _id: mongoose.Types.ObjectId(id) })
+      .toArray((err, files) => {
+        if (!files || files.length === 0) {
+          return res.status(404).json({ message: 'No file found' });
+        }
+        gfs.openDownloadStreamByName(files[0].filename).pipe(res);
+      });
   } catch (err) {
     console.log(err);
     next(err);

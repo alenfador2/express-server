@@ -23,10 +23,10 @@ const { MONGO_DB: dbURL } = process.env;
 const storage = new GridFsStorage({
   url: dbURL,
   options: { useNewUrlParser: true, useUnifiedTopology: true },
-  file: (req, file, res) => {
+  file: (req, file) => {
     {
       return {
-        filename: Date.now + '-' + file.originalname,
+        filename: Date.now() + '-' + file.originalname,
         bucketName: 'images',
       };
     }

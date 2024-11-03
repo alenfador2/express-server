@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Grid = require('gridfs-stream');
 require('dotenv').config();
 
 const { MONGO_DB: dbURL } = process.env;
@@ -23,10 +22,11 @@ const connection = async () => {
       gfs = mongoose.mongo.GridFSBucket(conn.db, {
         bucketName: 'images',
       });
+      console.log('GridFS successfully connected! ');
     });
   } catch (err) {
     console.log(`Something went wrong...${err}`);
   }
 };
 
-module.exports = { connection, gfs };
+module.exports = { connection, getGFs: () => gfs };
