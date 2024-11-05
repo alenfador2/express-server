@@ -7,7 +7,6 @@ const postsRouter = require('./routes/posts');
 const app = express();
 // добавляем CORS
 app.options(
-  '*',
   cors({
     origin: 'http://localhost:5173',
     credentials: true,
