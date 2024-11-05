@@ -61,7 +61,7 @@ const getFile = async (req, res, next) => {
     const { id } = req.params;
 
     await gfs
-      .find({ id: mongoose.Types.ObjectId(id) })
+      .find({ _id: mongoose.Types.ObjectId(id) })
       .toArray((err, files) => {
         if (!files || files.length === 0) {
           return res.status(404).json({ message: 'No file found' });
