@@ -7,36 +7,19 @@ const postsRouter = require('./routes/posts');
 const app = express();
 // добавляем CORS
 
-// app.use(
-//   cors({
-//     origin: 'http://localhost:5173',
-//     credentials: true,
-//     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
-//     allowedHeaders: [
-//       'Content-Type',
-//       'Authorization',
-//       'Accept',
-//       'X-Requested-With',
-//     ],
-//   })
-// );
-
-app.options('', cors());
-app.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,PATCH,POST,DELETE');
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin',
-    'X-Requested-With, X-CallbackType, Content-Type, Accept'
-  );
-  res.header('Cache-Control', 'no-cache');
-  if ('OPTIONS' == req.method) {
-    res.send(200);
-  } else {
-    next();
-  }
-});
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+    methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'Accept',
+      'X-Requested-With',
+    ],
+  })
+);
 
 app.use(express.json());
 
