@@ -10,6 +10,7 @@
     "lint": "eslint **/*.js",
     "lint:fix": "eslint --fix **/*.js"
   },
+  "proxy": "https://express-server-ty1w.onrender.com",
   "keywords": [],
   "author": "Taras_Sakhniuk <sakhniuk2013@gmail.com>",
   "license": "ISC",
