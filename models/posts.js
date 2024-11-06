@@ -17,7 +17,7 @@ const postsSchema = new Schema(
       maxLength: 2000,
     },
     file: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: 'images',
       required: false,
     },
