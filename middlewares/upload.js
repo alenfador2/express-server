@@ -9,11 +9,12 @@ AWS.config.update({
 });
 
 const s3 = new AWS.S3();
+const BUCKET_NAME = process.env.AWS_BUCKET_NAME;
 
 const upload = multer({
   storage: multerS3({
     s3: s3,
-    bucket: process.env.AWS_BUCKET_NAME,
+    bucket: BUCKET_NAME,
     acl: 'public-read',
     metadata: (req, file, cb) => {
       cb(null, { fieldName: file.fieldname });
