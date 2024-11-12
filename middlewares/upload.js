@@ -9,7 +9,7 @@ AWS.config.update({
 });
 
 const s3 = new AWS.S3();
-const BUCKET_NAME = process.env.AWS_BUCKET_NAME;
+const BUCKET_NAME = 'mpjbucket';
 
 const upload = multer({
   storage: multerS3({
