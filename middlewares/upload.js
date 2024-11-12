@@ -1,45 +1,27 @@
-const fs = require('fs');
 const multer = require('multer');
-const path = require('path');
+const AWS = require('aws-sdk');
+const multerS3 = require('multer-s3');
 
-const imageDir = path.join(__dirname, 'public/images');
-
-if (!fs.existsSync(imageDir)) {
-  fs.mkdirSync(imageDir, { recursive: true });
-}
-
-const storage = multer.diskStorage({
-  destination(req, file, cb) {
-    cb(null, imageDir);
-  },
-  filename(req, file, cb) {
-    cb(null, Date.now() + '_' + path.extname(file.originalname));
-  },
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: 'eu-north-1',
 });
 
-// const storage = multer.diskStorage({
-//   destination: function (req, file, cb) {
-//     cb(null, '/public/images');
-//   },
-//   filename: function (req, file, cb) {
-//     const uniqueFileName = Date.now() + '-' + Math.floor(Math.random() * 1e9);
-//     cb(null, file.fieldname + '-' + uniqueFileName);
-//   },
-// });
-const fileTypes = /jpeg|jpg|png|gif/;
-const typeFilter = (req, file, cb) => {
-  const mimetype = fileTypes.test(file.mimetype);
-  const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
+const s3 = new AWS.S3();
 
-  if (mimetype & extname) {
-    return cb(null, true);
-  } else {
-    return cb(
-      new Error('Invalid filetype. Only JPEG, JPG, PNG, and GIF are allowed'),
-      false
-    );
-  }
-};
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: process.env.AWS_BUCKET_NAME,
+    acl: 'public-read',
+    metadata: (req, file, cb) => {
+      cb(null, { fieldName: file.fieldname });
+    },
+    key: (req, file, cb) => {
+      cb(null, `uploads/${Date.now().toString()}-${file.originalname}`);
+    },
+  }),
+});
 
-const upload = multer({ storage, fileFilter: typeFilter });
 module.exports = upload;
