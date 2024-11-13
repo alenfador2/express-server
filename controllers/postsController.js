@@ -35,7 +35,7 @@ const post = async (req, res, next) => {
     if (req.file) {
       const params = {
         Bucket: BUCKET_NAME,
-        Key: `${Date.now()}_${file.originalname}`,
+        Key: `${Date.now()}_${req.file.originalname}`,
         Body: req.file.buffer,
         ContentType: req.file.mimetype,
       };
