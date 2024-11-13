@@ -1,7 +1,4 @@
 const Posts = require('../models/posts');
-const multer = require('multer');
-const path = require('path');
-const uploadFile = require('../middlewares/upload');
 const AWS = require('@aws-sdk/client-s3');
 
 const s3 = new AWS.S3();
@@ -10,9 +7,8 @@ const BUCKET_NAME = process.env.AWS_BUCKET_NAME;
 const get = async (req, res, next) => {
   try {
     const results = await Posts.find({});
-    return res.json({
+    return res.status(200).json({
       status: 'success',
-      code: 200,
       posts: results,
     });
   } catch (error) {
@@ -23,13 +19,14 @@ const get = async (req, res, next) => {
 
 const post = async (req, res, next) => {
   const { title, content } = req.body;
+
   if (!title || !content) {
-    res.json({
+    return res.status(400).json({
       status: 'failed',
-      code: 400,
-      message: 'missing required name - field',
+      message: 'Missing required fields: title or content',
     });
   }
+
   try {
     let fileUrl = '';
     if (req.file) {
@@ -39,7 +36,11 @@ const post = async (req, res, next) => {
         Body: req.file.buffer,
         ContentType: req.file.mimetype,
       };
+
       const uploadResult = await s3.upload(params).promise();
+      if (!uploadResult || !uploadResult.Location) {
+        throw new Error('Failed to upload file to S3');
+      }
       fileUrl = uploadResult.Location;
     }
 
@@ -48,10 +49,11 @@ const post = async (req, res, next) => {
       content,
       fileUrl,
     });
-    res.json({
-      code: '201',
-      results: newPost,
+
+    return res.status(201).json({
+      status: 'success',
       message: 'Post created successfully!',
+      results: newPost,
     });
   } catch (error) {
     console.log(error);
