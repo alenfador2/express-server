@@ -2,7 +2,7 @@ const Posts = require('../models/posts');
 const multer = require('multer');
 const path = require('path');
 const uploadFile = require('../middlewares/upload');
-const AWS = require('aws-sdk');
+const AWS = require('@aws-sdk/client-s3');
 
 const s3 = new AWS.S3();
 const BUCKET_NAME = process.env.AWS_BUCKET_NAME;
