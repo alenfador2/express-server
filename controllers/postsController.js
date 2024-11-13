@@ -1,7 +1,7 @@
 const Posts = require('../models/posts');
 const multer = require('multer');
 const path = require('path');
-const upload = require('../middlewares/upload');
+const uploadFile = require('../middlewares/upload');
 const AWS = require('aws-sdk');
 
 const s3 = new AWS.S3();
@@ -32,12 +32,12 @@ const post = async (req, res, next) => {
   }
   try {
     let fileUrl = '';
-    if (file) {
+    if (req.file) {
       const params = {
         Bucket: BUCKET_NAME,
         Key: `${Date.now()}_${file.originalname}`,
-        Body: file.buffer,
-        ContentType: file.mimetype,
+        Body: req.file.buffer,
+        ContentType: req.file.mimetype,
       };
       const uploadResult = await s3.upload(params).promise();
       fileUrl = uploadResult.Location;

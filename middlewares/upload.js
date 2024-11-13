@@ -1,28 +1,36 @@
-const multer = require('multer');
-const AWS = require('aws-sdk');
-const multerS3 = require('multer-s3');
+const { S3Client } = require('@aws-sdk/client-s3');
+const { Upload } = require('@aws-sdk/lib-storage');
 
-AWS.config.update({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: 'eu-north-1',
+const s3 = new S3Client({
+  region: process.env.AWS_REGION,
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY_ID,
+  },
 });
 
-const s3 = new AWS.S3();
-const BUCKET_NAME = 'mpjbucket';
+const uploadFile = async (fileStream, bucketName, key) => {
+  try {
+    const upload = new Upload({
+      client: s3,
+      params: {
+        Bucket: bucketName,
+        Key: key,
+        Body: fileStream,
+        ACL: 'public-read',
+      },
+    });
 
-const upload = multer({
-  storage: multerS3({
-    s3: s3,
-    bucket: BUCKET_NAME,
-    acl: 'public-read',
-    metadata: (req, file, cb) => {
-      cb(null, { fieldName: file.fieldname });
-    },
-    key: (req, file, cb) => {
-      cb(null, `uploads/${Date.now().toString()}-${file.originalname}`);
-    },
-  }),
-});
+    upload.on('httpUploadProgress', progress => {
+      console.log(progress);
+    });
 
-module.exports = upload;
+    const result = await upload.done();
+    console.log('File uploaded successfully:', result);
+    return result;
+  } catch (error) {
+    console.error('Error uploading file:', error);
+  }
+};
+
+module.exports = uploadFile;
