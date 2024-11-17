@@ -1,7 +1,6 @@
 const Posts = require('../models/posts');
-const AWS = require('@aws-sdk/client-s3');
+const uploadFile = require('../middlewares/upload');
 
-const s3 = new AWS.S3();
 const BUCKET_NAME = process.env.AWS_BUCKET_NAME;
 
 const get = async (req, res, next) => {
@@ -23,40 +22,34 @@ const post = async (req, res, next) => {
   if (!title || !content) {
     return res.status(400).json({
       status: 'failed',
+      code: 400,
       message: 'Missing required fields: title or content',
     });
   }
 
   try {
     let fileUrl = '';
-    if (req.file) {
-      const params = {
-        Bucket: BUCKET_NAME,
-        Key: `${Date.now()}_${req.file.originalname}`,
-        Body: req.file.buffer,
-        ContentType: req.file.mimetype,
-      };
 
-      const uploadResult = await s3.upload(params).promise();
-      if (!uploadResult || !uploadResult.Location) {
-        throw new Error('Failed to upload file to S3');
-      }
+    if (req.file) {
+      // Генерация уникального имени файла
+      const key = `${Date.now()}_${req.file.originalname}`;
+
+      // Загрузка файла в S3
+      const uploadResult = await uploadFile(req.file.buffer, BUCKET_NAME, key);
       fileUrl = uploadResult.Location;
     }
 
-    const newPost = await Posts.create({
-      title,
-      content,
-      fileUrl,
-    });
+    // Сохранение поста в базе данных
+    const newPost = await Posts.create({ title, content, fileUrl });
 
-    return res.status(201).json({
+    res.status(201).json({
       status: 'success',
-      message: 'Post created successfully!',
+      code: 201,
       results: newPost,
+      message: 'Post created successfully!',
     });
   } catch (error) {
-    console.log(error);
+    console.error('Error creating post:', error);
     next(error);
   }
 };
