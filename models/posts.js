@@ -16,7 +16,7 @@ const postsSchema = new Schema(
       minLength: 5,
       maxLength: 2000,
     },
-    file: {
+    fileUrl: {
       type: String,
       required: false,
     },
