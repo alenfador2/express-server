@@ -2,12 +2,12 @@ require('dotenv').config();
 const Posts = require('../models/posts');
 const uploadFile = require('../middlewares/upload');
 
-const bucketName = process.env.AWS_BUCKET_NAME;
-if (!bucketName) {
+const BUCKET_NAME = process.env.AWS_BUCKET_NAME;
+if (!BUCKET_NAME) {
   throw new Error('Bucket name is missing. Check environment variables');
 }
 
-console.log(`BUCKET_NAME: ${bucketName}`);
+console.log(`BUCKET_NAME: ${BUCKET_NAME}`);
 
 const get = async (req, res, next) => {
   try {
@@ -41,7 +41,7 @@ const post = async (req, res, next) => {
       const key = `${Date.now()}_${req.file.originalname}`;
 
       // Загрузка файла в S3
-      const uploadResult = await uploadFile(req.file.buffer, bucketName, key);
+      const uploadResult = await uploadFile(req.file.buffer, BUCKET_NAME, key);
       fileUrl = uploadResult.Location || '';
 
       if (!fileUrl) {
