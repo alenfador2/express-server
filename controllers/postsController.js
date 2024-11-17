@@ -1,3 +1,4 @@
+require('dotenv').config();
 const Posts = require('../models/posts');
 const uploadFile = require('../middlewares/upload');
 
