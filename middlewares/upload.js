@@ -18,7 +18,6 @@ const uploadFile = async (fileStream, bucketName, key) => {
         Bucket: bucketName,
         Key: key,
         Body: fileStream,
-        ACL: 'public-read',
       },
     });
 
