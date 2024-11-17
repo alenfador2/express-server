@@ -2,6 +2,11 @@ const Posts = require('../models/posts');
 const uploadFile = require('../middlewares/upload');
 
 const BUCKET_NAME = process.env.AWS_BUCKET_NAME;
+if (!BUCKET_NAME) {
+  throw new Error('Bucket name is missing. Check environment variables');
+}
+
+console.log(`BUCKET_NAME: ${BUCKET_NAME}`);
 
 const get = async (req, res, next) => {
   try {
@@ -36,7 +41,11 @@ const post = async (req, res, next) => {
 
       // Загрузка файла в S3
       const uploadResult = await uploadFile(req.file.buffer, BUCKET_NAME, key);
-      fileUrl = uploadResult.Location;
+      fileUrl = uploadResult.Location || '';
+
+      if (!fileUrl) {
+        throw new Error('Failed to retrieve url from s3');
+      }
     }
 
     // Сохранение поста в базе данных
