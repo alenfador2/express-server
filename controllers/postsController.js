@@ -1,12 +1,12 @@
 const Posts = require('../models/posts');
 const uploadFile = require('../middlewares/upload');
 
-const BUCKET_NAME = process.env.AWS_BUCKET_NAME;
-if (!BUCKET_NAME) {
+const bucketName = process.env.AWS_BUCKET_NAME;
+if (!bucketName) {
   throw new Error('Bucket name is missing. Check environment variables');
 }
 
-console.log(`BUCKET_NAME: ${BUCKET_NAME}`);
+console.log(`BUCKET_NAME: ${bucketName}`);
 
 const get = async (req, res, next) => {
   try {
@@ -40,7 +40,7 @@ const post = async (req, res, next) => {
       const key = `${Date.now()}_${req.file.originalname}`;
 
       // Загрузка файла в S3
-      const uploadResult = await uploadFile(req.file.buffer, BUCKET_NAME, key);
+      const uploadResult = await uploadFile(req.file.buffer, bucketName, key);
       fileUrl = uploadResult.Location || '';
 
       if (!fileUrl) {
