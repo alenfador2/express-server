@@ -29,7 +29,13 @@ const register = async (req, res) => {
       verificationToken: crypto.randomBytes(68).toString('hex'),
     });
     await newUser.setPassword(value.password);
-    await newUser.save();
+    await newUser.create({
+      firstName,
+      lastName,
+      email,
+      verificationToken,
+      password,
+    });
 
     res.status(201).json({
       user: {
