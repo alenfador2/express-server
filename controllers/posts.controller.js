@@ -1,6 +1,6 @@
 require('dotenv').config();
 const Posts = require('../models/posts');
-const uploadFile = require('../middlewares/upload');
+const uploadFile = require('../middlewares/upload.middleware');
 
 const BUCKET_NAME = process.env.AWS_BUCKET_NAME;
 if (!BUCKET_NAME) {

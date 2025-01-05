@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const postsController = require('../controllers/postsController');
+const postsController = require('../controllers/posts.controller');
 const multer = require('multer');
 
 const upload = multer();

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const bcrypt = require('bcrypt');
 
 const userSchema = new Schema(
   {
@@ -13,12 +14,15 @@ const userSchema = new Schema(
     },
     email: {
       type: String,
-      required: true,
+      required: [true, 'Email is required!'],
       unique: true,
     },
     password: {
       type: String,
-      required: true,
+      required: [true, 'Password is required!'],
+    },
+    verificationToken: {
+      type: String,
     },
     createdAt: {
       type: Date,
@@ -39,6 +43,14 @@ const userSchema = new Schema(
     },
   }
 );
+
+userSchema.methods.setPassword = async function () {
+  this.password = await bcrypt.hash(password, 12);
+};
+
+userSchema.methods.checkPassword = async function () {
+  await bcrypt.compare(password, this.password);
+};
 
 const Users = mongoose.model('Users', userSchema, 'users');
 module.exports = Users;
