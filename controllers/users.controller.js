@@ -1,7 +1,7 @@
 const Users = require('../models/users');
 require('dotenv').config();
 const bcrypt = require('bcrypt');
-const userSchema = require('../validation/userSchema');
+const { userSchema } = require('../validation/userSchema');
 const crypto = require('crypto');
 
 const register = async (req, res) => {
