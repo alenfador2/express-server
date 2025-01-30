@@ -11,4 +11,4 @@ const userSchema = Joi.object({
   repeat_password: Joi.ref('password'),
 });
 
-export default userSchema;
+module.exports = userSchema;
