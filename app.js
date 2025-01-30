@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/', postsRouter);
-app.use('/auth', authRouter);
+app.use('/auth/', authRouter);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
