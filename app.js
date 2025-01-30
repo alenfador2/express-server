@@ -7,7 +7,13 @@ const authRouter = require('./routes/auth');
 
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: '*', // Разрешить все домены
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  })
+);
 
 app.use(express.json());
 
