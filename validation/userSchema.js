@@ -8,7 +8,7 @@ const userSchema = Joi.object({
     tlds: { allow: ['com', 'net'] },
   }),
   password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')),
-  repeatPassword: Joi.ref('password'),
+  confirmPassword: Joi.ref('password'),
 });
 
 module.exports = { userSchema };
