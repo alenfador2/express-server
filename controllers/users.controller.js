@@ -6,7 +6,7 @@ const crypto = require('crypto');
 
 const register = async (req, res) => {
   const { error, value } = userSchema.validate(req.body);
-  const user = await User.findOne({ email: value.email });
+  const user = await Users.findOne({ email: value.email });
 
   if (user) {
     res.json({
@@ -22,7 +22,7 @@ const register = async (req, res) => {
   }
 
   try {
-    const newUser = new User({
+    const newUser = new Users({
       firstName: value.firstName,
       lastName: value.lastName,
       email: value.email,
