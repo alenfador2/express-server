@@ -22,7 +22,7 @@ const register = async (req, res) => {
   }
 
   try {
-    const newUser = new Users({
+    const newUser = await new Users({
       firstName: value.firstName,
       lastName: value.lastName,
       email: value.email,
