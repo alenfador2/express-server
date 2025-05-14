@@ -22,6 +22,7 @@ const register = async (req, res) => {
   }
 
   try {
+    // !!!!!!!!
     const newUser = await new Users({
       firstName: value.firstName,
       lastName: value.lastName,
