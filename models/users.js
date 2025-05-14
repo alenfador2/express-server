@@ -44,8 +44,9 @@ const userSchema = new Schema(
   }
 );
 
-userSchema.methods.setPassword = async function () {
-  this.password = await bcrypt.hash(password, 12);
+userSchema.methods.setPassword = async function (password) {
+  const hash = bcrypt.hashSync(password, 12);
+  this.password = hash;
 };
 
 userSchema.methods.checkPassword = async function () {
